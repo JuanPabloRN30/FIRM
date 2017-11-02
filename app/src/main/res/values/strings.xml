@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">FIRM</string>
+    <!--[BEGIN declare_login_activity-->
+    <string name="forget_password">¿Olvidaste la contraseña?</string>
+    <string name="title_activity_login">Iniciar Sesión</string>
+    <string name="continua">O continúa con:</string>
+    <string name="action_sign_in">Registrarse</string>
+    <string name="prompt_email">Correo</string>
+    <string name="prompt_password">Contraseña</string>
+    <!--[END declare_login_activity-->
+
+    <!--[BEGIN declare_facebook-->
+    <string name="facebook_app_id">1512689935484013</string>
+    <!--[END declare_facebook-->
+
+</resources>
