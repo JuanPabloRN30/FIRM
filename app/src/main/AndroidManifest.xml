@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.juanpablorn30.firm">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:allowBackup="true"
@@ -14,16 +16,27 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-        <activity android:name=".LoginActivity"
+
+        <activity
+            android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".BluetoothActivity" />
+        <activity
+            android:name=".MenuUsuarioActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AlarmasActivity" />
+        <activity
+            android:name=".AlarmaDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ContactosEmergenciaActivity" />
+        <activity android:name=".ContactoEmergenciaDetailActivity"></activity>
     </application>
 
 </manifest>

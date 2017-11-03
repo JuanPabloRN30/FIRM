@@ -13,4 +13,26 @@
     <string name="facebook_app_id">1512689935484013</string>
     <!--[END declare_facebook-->
 
+    <!--[BEGIN declare_menu_usuario_activity-->
+    <string name="sincronizar_bluetooth">Sincronizar bluetooth</string>
+    <string name="alarmas">Alarmas</string>
+    <string name="contacto_emergencia">Contacto de emergencia</string>
+    <!--[END declare_menu_usuario_activity-->
+
+    <!--[BEGIN declare_alarmas_activity-->
+    <string name="add">Agregar alarma</string>
+    <!--[END declare_alarmas_activity-->
+
+    <!--[BEGIN declare_alarmas_detail_activity-->
+    <string name="time_picker_hint">Seleccione la hora</string>
+    <string name="guardar_alarma">Guardar</string>
+    <!--[END declare_alarmas_detail_activity-->
+
+    <!--[BEGIN declare_contactos_emergencia_activity-->
+    <string name="boton_medico">Médico</string>
+    <string name="boton_guardian">Guardian</string>
+    <string name="boton_menu_llamar">Llamar</string>
+    <!--[END declare_contactos_emergencia_activity-->
+
+
 </resources>

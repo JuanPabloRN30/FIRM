@@ -2,6 +2,7 @@ package com.example.juanpablorn30.firm;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -138,9 +139,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private void updateUI(FirebaseUser currentUser) {
         Log.d(TAG_GOOGLE, "Entre a updateUI");
-        //Intent intent = new Intent(getBaseContext(), MenuActivity.class);
+        Intent intent = new Intent(getBaseContext(), MenuUsuarioActivity.class);
         if( currentUser != null ){
-            //startActivity(intent);
+            startActivity(intent);
             finish();
         }
     }
@@ -233,7 +234,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if( i == R.id.btnGoogle ) {
             signInGoogle();
         } else if( i == R.id.email_sign_in_button ){
-            signInEmail(mEmailView.getText().toString(), mPasswordView.getText().toString());
+            if(mEmailView.getText().length() == 0 || mPasswordView.getText().length() == 0){
+                Snackbar.make(view, "El email y/o password están vacios", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                // [BORRAR]
+                Intent intent = new Intent(getBaseContext(), MenuUsuarioActivity.class);
+                startActivity(intent);
+                // [BORRAR]
+            }else{
+                signInEmail(mEmailView.getText().toString(), mPasswordView.getText().toString());
+            }
         }
         else if( i == R.id.registrarse){
             //Intent intent= new Intent(getBaseContext(),SignInActivity.class);

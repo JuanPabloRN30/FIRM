@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingBottom="30dp"
+    tools:context="com.example.juanpablorn30.firm.MenuUsuarioActivity">
+
+    <Button
+        android:id="@+id/btnSincronizarBluetooth"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:text="@string/sincronizar_bluetooth" />
+
+    <Button
+        android:id="@+id/btnAlarmas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:text="@string/alarmas" />
+
+    <Button
+        android:id="@+id/btnContactosEmergencia"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:text="@string/contacto_emergencia" />
+
+</LinearLayout>
