@@ -25,12 +25,12 @@ public class ContactosEmergenciaActivity extends AppCompatActivity implements Vi
         if(id == R.id.btnMedico){
             Log.d(TAG, "Boton medico");
             Intent intent = new Intent(getBaseContext(), ContactoEmergenciaDetailActivity.class);
-            intent.putExtra("tipo", "medico");
+            intent.putExtra("tipo", "Médico");
             startActivity(intent);
         }else if(id == R.id.btnGuardian){
             Log.d(TAG, "Boton medico");
             Intent intent = new Intent(getBaseContext(), ContactoEmergenciaDetailActivity.class);
-            intent.putExtra("tipo", "guardian");
+            intent.putExtra("tipo", "Guardián");
             startActivity(intent);
         }
     }

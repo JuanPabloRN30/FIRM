@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">FIRM</string>
+
+    <!--[BEGIN declare_signin_activity]-->
+    <string name="name">Nombre Completo</string>
+    <!--[END declare_signin_activity]-->
+
     <!--[BEGIN declare_login_activity-->
     <string name="forget_password">¿Olvidaste la contraseña?</string>
     <string name="title_activity_login">Iniciar Sesión</string>
@@ -17,10 +22,12 @@
     <string name="sincronizar_bluetooth">Sincronizar bluetooth</string>
     <string name="alarmas">Alarmas</string>
     <string name="contacto_emergencia">Contacto de emergencia</string>
+    <string name="cerrar_sesion">Cerrar sesión</string>
     <!--[END declare_menu_usuario_activity-->
 
     <!--[BEGIN declare_alarmas_activity-->
     <string name="add">Agregar alarma</string>
+    <string name="no_alarmas">No hay alarmas agregadas</string>
     <!--[END declare_alarmas_activity-->
 
     <!--[BEGIN declare_alarmas_detail_activity-->

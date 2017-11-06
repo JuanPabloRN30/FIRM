@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.juanpablorn30.clases.Paciente;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -20,6 +21,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -31,6 +33,14 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Date;
+import java.util.Set;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
 
@@ -46,6 +56,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     // [START declare_auth]
     private FirebaseAuth mAuth;
     // [END declare_auth]
+
+    private DatabaseReference mCurrentUserReference;
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -65,6 +77,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         btnFacebook = (LoginButton) findViewById(R.id.btnFacebook);
         signin= (TextView) findViewById(R.id.registrarse);
 
+        mCurrentUserReference = FirebaseDatabase.getInstance().getReference().child("usuarios");
+
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
@@ -74,6 +88,19 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         findViewById(R.id.btnFacebook).setOnClickListener(this);
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
         findViewById(R.id.registrarse).setOnClickListener(this);
+
+        // [START config_signin]
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(getBaseContext())
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        // [END config_signin]
 
         // [START initialize_fblogin]
         // Initialize Facebook Login button
@@ -186,6 +213,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG_GOOGLE, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            agregarCiclistaFireBase(user);
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -216,6 +244,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG_FACEBOOK, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            agregarCiclistaFireBase(user);
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -226,6 +255,36 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         }
                     }
                 });
+    }
+
+    private void agregarCiclistaFireBase(FirebaseUser user){
+        String email = user.getEmail();
+        Date date_birth = null;
+        String Uid = user.getUid();
+        agregarCiclistaFireBase(Uid, user.getDisplayName(), email, date_birth, "");
+    }
+
+    private void agregarCiclistaFireBase(String Uid, String name, String email, Date date_birth, String cell){
+        ValueEventListener usuariosListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean can_save = true;
+                for(DataSnapshot aux : dataSnapshot.getChildren()){
+                    if(aux.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) can_save = false;
+                }
+                if(can_save){
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("usuarios/" + user.getUid());
+                    myRef.setValue(new Paciente(user.getDisplayName(), user.getEmail(), null, ""));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        mCurrentUserReference.addListenerForSingleValueEvent(usuariosListener);
     }
 
     @Override
@@ -245,8 +304,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         }
         else if( i == R.id.registrarse){
-            //Intent intent= new Intent(getBaseContext(),SignInActivity.class);
-            //startActivity(intent);
+            Intent intent= new Intent(getBaseContext(),SignInActivity.class);
+            startActivity(intent);
         }
     }
 }

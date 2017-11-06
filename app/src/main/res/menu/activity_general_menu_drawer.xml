@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:title="@string/add"
-        android:id="@+id/add"
-        android:icon="@drawable/add1"
-        app:showAsAction="always"></item>
+        android:id="@+id/it_exit_menu"
+        android:icon="@drawable/menu_exit"
+        android:title="@string/cerrar_sesion" />
 </menu>

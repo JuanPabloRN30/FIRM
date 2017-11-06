@@ -6,7 +6,46 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dp"
+    android:id="@+id/parentLinear_contactoEmergenciaDetail"
     tools:context="com.example.juanpablorn30.firm.ContactoEmergenciaDetailActivity">
+
+    <LinearLayout
+        android:id="@+id/linear_contactoEmergenciaDetail_parentezco"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.3"
+            android:padding="5dp"
+            android:src="@drawable/profile_id"
+            android:tint="@color/greydark" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Parentezco" />
+
+            <EditText
+                android:id="@+id/et_contactoEmergenciaDetail_parentezco"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:enabled="false"
+                android:inputType="text"
+                android:hint="No definido" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,12 +72,12 @@
                 android:text="Nombres" />
 
             <EditText
-                android:id="@+id/et_eprofile_name"
+                android:id="@+id/et_contactoEmergenciaDetail_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:enabled="false"
                 android:inputType="text"
-                android:text="No definido" />
+                android:hint="No definido" />
 
         </LinearLayout>
 
@@ -70,12 +109,12 @@
                 android:text="Correo electrónico" />
 
             <EditText
-                android:id="@+id/et_eprofile_email"
+                android:id="@+id/et_contactoEmergenciaDetail_email"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:enabled="false"
                 android:inputType="text"
-                android:text="No definido" />
+                android:hint="No definido" />
 
         </LinearLayout>
 
@@ -107,67 +146,16 @@
                 android:text="Número celular" />
 
             <EditText
-                android:id="@+id/et_eprofile_cell"
+                android:id="@+id/et_contactoEmergenciaDetail_cell"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:enabled="false"
                 android:inputType="number"
-                android:text="No definido" />
+                android:hint="No definido" />
 
         </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:gravity="center">
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="0.3"
-            android:padding="5dp"
-            android:src="@drawable/profile_age"
-            android:tint="@color/greydark" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.7"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Edad" />
-
-            <EditText
-                android:id="@+id/et_eprofile_age"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:enabled="false"
-                android:focusable="false"
-                android:inputType="number"
-                android:text="No definido" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_eprofile_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cambiar contraseña" />
-
-    <Button
-        android:id="@+id/btn_eprofile_photo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cambiar foto" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -175,7 +163,7 @@
         android:layout_gravity="bottom">
 
         <Button
-            android:id="@+id/btn_eprofile_cancel"
+            android:id="@+id/btn_contactoEmergenciaDetail_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -187,7 +175,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/btn_eprofile_edit"
+            android:id="@+id/btn_contactoEmergenciaDetail_edit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -199,7 +187,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/btn_eprofile_save"
+            android:id="@+id/btn_contactoEmergenciaDetail_save"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"

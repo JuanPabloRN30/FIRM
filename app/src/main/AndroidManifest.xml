@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.juanpablorn30.firm">
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -28,15 +29,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".BluetoothActivity" />
-        <activity
-            android:name=".MenuUsuarioActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".MenuUsuarioActivity"/>
         <activity android:name=".AlarmasActivity" />
         <activity
             android:name=".AlarmaDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ContactosEmergenciaActivity" />
-        <activity android:name=".ContactoEmergenciaDetailActivity"></activity>
+        <activity android:name=".ContactoEmergenciaDetailActivity" />
+        <activity android:name=".SignInActivity"></activity>
     </application>
 
 </manifest>
