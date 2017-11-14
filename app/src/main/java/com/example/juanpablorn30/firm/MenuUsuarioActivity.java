@@ -4,21 +4,24 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MenuUsuarioActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private BluetoothDevice bluetoothDevice = null;
+    private String TAG = "MenuUsuarioActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_usuario);
-
         findViewById(R.id.btnSincronizarBluetooth).setOnClickListener(this);
         findViewById(R.id.btnAlarmas).setOnClickListener(this);
         findViewById(R.id.btnContactosEmergencia).setOnClickListener(this);
@@ -41,15 +44,6 @@ public class MenuUsuarioActivity extends AppCompatActivity implements View.OnCli
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 1){
-            if(resultCode == RESULT_OK){
-                bluetoothDevice = data.getParcelableExtra("device");
-            }
-        }
     }
 
     @Override

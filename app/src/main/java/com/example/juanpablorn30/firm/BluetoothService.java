@@ -19,6 +19,8 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
@@ -49,11 +51,10 @@ public class BluetoothService extends Service {
         }else{
             try {
                 outputStream.write(message.getBytes());
-                Log.d(TAG, "Logre enviar");
-                Snackbar.make(parentView, "Envie: " + message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Snackbar.make(parentView, "Se han enviado los datos.", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             } catch (IOException e) {
-                Snackbar.make(parentView, "NO pude: " + message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                Log.d(TAG, "No logre enviar");
+                //Snackbar.make(parentView, "NO pude: " + message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Log.d(TAG, "No se logro enviar, ocurrio un problema.");
                 e.printStackTrace();
             }
         }
@@ -77,7 +78,6 @@ public class BluetoothService extends Service {
                         String real_str = "";
                         for(int i = 0 ; i < bytes ; i++)
                             real_str += str.charAt(i);
-                        Log.d(TAG, "Recibi datos");
                         Log.d(TAG, "Recibi: " + real_str);
                     }
                 } catch (IOException e) {
@@ -104,12 +104,12 @@ public class BluetoothService extends Service {
         mServiceHandler = new ServiceHandler(mServiceLooper);
     }
 
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(intent.getExtras().getParcelableArray("device") == null){
+        if(intent.getExtras().getParcelable("device") == null){
             Log.d(TAG, "Entre aca");
         }else{
-
             try {
                 BluetoothDevice device = intent.getExtras().getParcelable("device");
                 BluetoothSocket bluetoothSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
@@ -118,8 +118,13 @@ public class BluetoothService extends Service {
                 inputStream = bluetoothSocket.getInputStream();
                 outputStream = bluetoothSocket.getOutputStream();
                 Message msg = mServiceHandler.obtainMessage();
+                Date now = new Date(System.currentTimeMillis());
+                SimpleDateFormat sdf = new SimpleDateFormat("HHmm");
+                String send_message = "2" + sdf.format(now);
+                outputStream.write(send_message.getBytes());
                 msg.arg1 = startId;
                 mServiceHandler.sendMessage(msg);
+
             } catch (IOException e) {
                 Toast.makeText(getBaseContext(), "No se puede conectar!", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();

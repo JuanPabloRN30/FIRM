@@ -43,7 +43,6 @@ public class AlarmaDetailActivity extends AppCompatActivity implements View.OnCl
 
     private EditText time;
     private ListView listView;
-    private ArrayAdapter<String> mArrayAdapter;
 
     private int color_seleccionado;
     private View prev;
@@ -83,7 +82,6 @@ public class AlarmaDetailActivity extends AppCompatActivity implements View.OnCl
 
     private void crearArregloColor(){
         try{
-            Log.d(TAG, "Entre a crear la mascara");
             int lim = (1 << 3);
             for(int i = 1 ; i < lim ; i++){
                 List<Integer> aux = new ArrayList<>();
@@ -127,8 +125,6 @@ public class AlarmaDetailActivity extends AppCompatActivity implements View.OnCl
 
     private void cargarColores(){
         try{
-            Log.d(TAG, "Entre a cargar colores");
-            Log.d(TAG, "EL tam es: " + colores_totales.size());
             item = new ArrayList<>();
             for(List<Integer> aux : colores_totales){
                 item.add(aux);
@@ -150,9 +146,6 @@ public class AlarmaDetailActivity extends AppCompatActivity implements View.OnCl
             e.printStackTrace();
         }
         mCurrentUserReference.child("alarmas").push().setValue(new Alarma(date, item.get(this.color_seleccionado)));
-        Snackbar.make(view, "Se ha creado la alarma exitosamente", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-        Intent intent = new Intent(getBaseContext(), AlarmasActivity.class);
-        startActivity(intent);
         finish();
     }
 

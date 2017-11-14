@@ -8,6 +8,7 @@ import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,7 +34,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -191,8 +194,13 @@ public class AlarmasActivity extends AppCompatActivity implements View.OnClickLi
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemClicked = item.getItemId();
         if(itemClicked == R.id.add){
-            Intent intent = new Intent(getBaseContext(), AlarmaDetailActivity.class);
-            startActivity(intent);
+            if(alarmas.size() == 7){
+                Snackbar.make(listView, "Ya se han agregado la máxima cantidad de alarmas.", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }else{
+                Intent intent = new Intent(getBaseContext(), AlarmaDetailActivity.class);
+                startActivity(intent);
+
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -209,6 +217,11 @@ public class AlarmasActivity extends AppCompatActivity implements View.OnClickLi
                     else
                         send_message += "0";
                 }
+            }
+            for(Alarma aux : alarmas){
+                Date aux_date = new Date(aux.getHora());
+                SimpleDateFormat sdf = new SimpleDateFormat("HHmm");
+                send_message += sdf.format(aux_date);
             }
             if(mBound){
                 bluetoothService.sendMessage(view,send_message);
