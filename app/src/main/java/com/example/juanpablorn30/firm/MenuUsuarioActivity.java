@@ -1,5 +1,6 @@
 package com.example.juanpablorn30.firm;
 
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MenuUsuarioActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private BluetoothDevice bluetoothDevice = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +44,20 @@ public class MenuUsuarioActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1){
+            if(resultCode == RESULT_OK){
+                bluetoothDevice = data.getParcelableExtra("device");
+            }
+        }
+    }
+
+    @Override
     public void onClick(View view) {
         int i = view.getId();
         if(i == R.id.btnSincronizarBluetooth){
             Intent intent = new Intent(getBaseContext(), BluetoothActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, 1);
         }else if(i == R.id.btnAlarmas){
             Intent intent = new Intent(getBaseContext(), AlarmasActivity.class);
             startActivity(intent);

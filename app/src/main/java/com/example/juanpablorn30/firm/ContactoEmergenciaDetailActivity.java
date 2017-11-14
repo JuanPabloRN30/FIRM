@@ -269,6 +269,13 @@ public class ContactoEmergenciaDetailActivity extends AppCompatActivity implemen
                 FirebaseDatabase.getInstance().getReference().child("usuarios").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(child).updateChildren(updates);
                 Snackbar.make(view, "¡Se han guardado los cambios!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
+            cancel.setEnabled(true);
+            save.setEnabled(false);
+            edit.setEnabled(true);
+            nombre.setEnabled(false);
+            email.setEnabled(false);
+            numero_celular.setEnabled(false);
+            parentezco.setEnabled(false);
         }
     }
 }

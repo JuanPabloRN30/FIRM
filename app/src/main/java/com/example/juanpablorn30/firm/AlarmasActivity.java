@@ -1,13 +1,23 @@
 package com.example.juanpablorn30.firm;
 
+import android.bluetooth.BluetoothDevice;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class AlarmasActivity extends AppCompatActivity {
+public class AlarmasActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String TAG = "AlarmasActivity";
 
@@ -39,6 +49,14 @@ public class AlarmasActivity extends AppCompatActivity {
     private ListView listView;
     private TextView txtNoAlarmas;
     private List<Alarma> alarmas;
+
+    private float historicX;
+    private int itemSelected;
+    private View viewSelected;
+    private static final int DELTA = 50;
+
+    private BluetoothService bluetoothService;
+    boolean mBound = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +68,58 @@ public class AlarmasActivity extends AppCompatActivity {
         mCurrentUserReference = FirebaseDatabase.getInstance().getReference().child("usuarios").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         alarmas = new ArrayList<>();
+        findViewById(R.id.btn_alarmas_send).setOnClickListener(this);
+
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        historicX = motionEvent.getX();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if(motionEvent.getX() - historicX < -DELTA){
+                            deleteRow();
+                        }
+                    break;
+                }
+                return false;
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                itemSelected = i;
+                viewSelected = view;
+            }
+        });
+    }
+
+
+
+    private void deleteRow(){
+        Log.d(TAG, "Entre");
+        /*final Animation animation = AnimationUtils.loadAnimation(getBaseContext(), android.R.anim.slide_in_left);
+        viewSelected.startAnimation(animation);
+        Handler handle = new Handler();
+        handle.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                alarmas.remove(itemSelected);
+                ListAlarmAdapter adapter = new ListAlarmAdapter(alarmas, getBaseContext());
+                listView.setAdapter(adapter);
+                animation.cancel();
+            }
+        },1000);*/
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        Intent intent = new Intent(this, BluetoothService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
         ValueEventListener coloresListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -87,6 +152,10 @@ public class AlarmasActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         if(mPacientesListener!= null) mCurrentUserReference.removeEventListener(mPacientesListener);
+        if(mBound){
+            unbindService(mConnection);
+            mBound = false;
+        }
     }
 
     private void cargarAlarmas(){
@@ -94,10 +163,27 @@ public class AlarmasActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            BluetoothService.LocalBinder binder = (BluetoothService.LocalBinder) service;
+            bluetoothService = binder.getService();
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBound = false;
+        }
+    };
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_lista_alarmas, menu);
+        getSupportActionBar().setTitle("Lista Alarmas");
         return true;
     }
 
@@ -109,5 +195,24 @@ public class AlarmasActivity extends AppCompatActivity {
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        if(id == R.id.btn_alarmas_send){
+            String send_message = "1" + alarmas.size();
+            for(Alarma aux : alarmas){
+                for(int i = 0 ; i < 3 ; i++){
+                    if(aux.getColor().get(i) == 255)
+                        send_message += "1";
+                    else
+                        send_message += "0";
+                }
+            }
+            if(mBound){
+                bluetoothService.sendMessage(view,send_message);
+            }
+        }
     }
 }

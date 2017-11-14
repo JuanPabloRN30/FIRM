@@ -295,10 +295,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         } else if( i == R.id.email_sign_in_button ){
             if(mEmailView.getText().length() == 0 || mPasswordView.getText().length() == 0){
                 Snackbar.make(view, "El email y/o password están vacios", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                // [BORRAR]
-                Intent intent = new Intent(getBaseContext(), MenuUsuarioActivity.class);
-                startActivity(intent);
-                // [BORRAR]
             }else{
                 signInEmail(mEmailView.getText().toString(), mPasswordView.getText().toString());
             }
